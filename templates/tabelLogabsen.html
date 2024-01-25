@@ -1,0 +1,307 @@
+{% extends 'layout.html' %} {% block content %}
+
+<div class="container-fluid">
+  <h1 class="h3 mb-2 text-gray-800">Log Absensi</h1>
+
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">DataTable</h6>
+      <div class="float-right">
+        <!-- <button
+          class="btn btn-success"
+          data-toggle="modal"
+          data-target="#addModal"
+        >
+          <i class="fas fa-plus"></i> Tambah Data
+        </button> -->
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table
+          class="table table-bordered dataTable"
+          id="dataTable"
+          width="100%"
+          cellspacing="0"
+        >
+          <thead>
+            <tr>
+              <th>Nama Lengkap</th>
+              <th>NIM</th>
+              <th>Kelas</th>
+              <th>Matkul</th>
+              <th>Hari</th>
+              <th>Tanggal</th>
+              <th>Jam</th>
+              <th>Status</th>
+              <!-- <th>Foto/gambar</th>
+              <th>Jam Masuk</th>
+              <th>Jam Pulang</th> -->
+              <!-- <td>Menu Aksi</td> -->
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in tableData %}
+            <tr>
+              <td>{{ row.nama_lengkap }}</td>
+              <td>{{ row.nim }}</td>
+              <td>{{ row.kelas }}</td>
+              <td>{{ row.matkul }}</td>
+              <td>{{ row.hari }}</td>
+              <td>{{ row.tanggal }}</td>
+              <td>{{ row.jam }}</td>
+              <td>{{ row.status }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Tambah Absen -->
+<div
+  class="modal fade"
+  id="addModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="addModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Tambah Absensi</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Form Tambah Absen -->
+        <form action="/tambahLogAbsen" method="POST">
+          <div class="form-group">
+            <label for="nama_lengkap">Nama Lengkap</label>
+            <input
+              type="text"
+              class="form-control"
+              id="nama_lengkap"
+              name="nama_lengkap"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="nim">NIM</label>
+            <input
+              type="text"
+              class="form-control"
+              id="nim"
+              name="nim"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="kelas">Kelas</label>
+            <input
+              type="text"
+              class="form-control"
+              id="kelas"
+              name="kelas"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="tanggal">Tanggal</label>
+            <input
+              type="text"
+              class="form-control"
+              id="tanggal"
+              name="tanggal"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="foto">Foto</label>
+            <input
+              type="text"
+              class="form-control"
+              id="foto"
+              name="foto"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="jamMasuk">Jam Masuk</label>
+            <input
+              type="text"
+              class="form-control"
+              id="jamMasuk"
+              name="jamMasuk"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="jamPulang">Jam Pulang</label>
+            <input
+              type="text"
+              class="form-control"
+              id="jamPulang"
+              name="jamPulang"
+              required
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Tutup
+            </button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Edit Absen -->
+{% for row in tableData %}
+<div
+  class="modal fade"
+  id="editModal{{ row._id }}"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="editModalLabel{{ row._id }}"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel{{ row._id }}">
+          Edit Absensi
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Form Edit Absen -->
+        <form action="/ubahLogAbsen/{{ row._id }}" method="POST">
+          <div class="form-group">
+            <label for="editNamaLengkap">Nama Lengkap</label>
+            <input
+              type="text"
+              class="form-control"
+              id="editNamaLengkap"
+              name="nama_lengkap"
+              value="{{ row.nama_lengkap }}"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="editNIM">NIM</label>
+            <input
+              type="text"
+              class="form-control"
+              id="editNIM"
+              name="nim"
+              value="{{ row.nim }}"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="editKelas">Kelas</label>
+            <input
+              type="text"
+              class="form-control"
+              id="editKelas"
+              name="kelas"
+              value="{{ row.kelas }}"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="editTanggal">Tanggal</label>
+            <input
+              type="text"
+              class="form-control"
+              id="editTanggal"
+              name="tanggal"
+              value="{{ row.tanggal }}"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="editFoto">Foto</label>
+            <input
+              type="text"
+              class="form-control"
+              id="editFoto"
+              name="foto"
+              value="{{ row.foto }}"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="editJamMasuk">Jam Masuk</label>
+            <input
+              type="text"
+              class="form-control"
+              id="editJamMasuk"
+              name="jamMasuk"
+              value="{{ row.jamMasuk }}"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="editJamPulang">Jam Pulang</label>
+            <input
+              type="text"
+              class="form-control"
+              id="editJamPulang"
+              name="jamPulang"
+              value="{{ row.jamPulang }}"
+              required
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Tutup
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Simpan Perubahan
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+<script>
+  function deleteConfirmation(id) {
+    var confirmation = confirm("Apakah Anda yakin ingin menghapus data ini?");
+    if (confirmation) {
+      window.location.href = "/hapusLogAbsen/" + id;
+    }
+  }
+</script>
+
+{% endblock %}

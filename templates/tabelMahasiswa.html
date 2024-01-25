@@ -1,0 +1,296 @@
+{% extends 'layout.html' %} {% block content %}
+
+<div class="container-fluid">
+  <h1 class="h3 mb-2 text-gray-800">Data Mahasiswa</h1>
+
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Tabel Mahasiswa</h6>
+      <div class="float-right">
+        <button
+          class="btn btn-success"
+          data-toggle="modal"
+          data-target="#addModal"
+        >
+          <i class="fas fa-plus"></i> Tambah Data
+        </button>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table
+          class="table table-bordered dataTable"
+          id="dataTable"
+          width="100%"
+          cellspacing="0"
+        >
+          <thead>
+            <tr>
+              <th>Nama Lengkap</th>
+              <th>NIM</th>
+              <th>Kelas</th>
+              <th>Menu Aksi</th>
+              <th>Absen</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in tableData %}
+            <tr>
+              <td>{{ row.nama_lengkap }}</td>
+              <td>{{ row.nim }}</td>
+              <td>{{ row.kelas }}</td>
+              <td>
+                <div class="btn-group">
+                  <a
+                    href="#"
+                    class="btn btn-sm btn-warning"
+                    data-toggle="modal"
+                    data-target="#editModal{{ row._id }}"
+                  >
+                    <i class="fas fa-edit"></i> Edit
+                  </a>
+                  <div class="mr-2"></div>
+                  <a
+                    href="#"
+                    onclick="deleteConfirmation('{{ row._id }}')"
+                    class="btn btn-sm btn-danger"
+                  >
+                    <i class="fas fa-trash"></i> Hapus
+                  </a>
+                </div>
+              </td>
+              <td>
+                <button
+                  class="btn btn-sm btn-primary"
+                  data-toggle="modal"
+                  data-target="#absenModal{{ row._id }}"
+                >
+                  <i class="fas fa-eye"></i> Lihat Absen
+                </button>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Tambah Mahasiswa -->
+<div
+  class="modal fade"
+  id="addModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="addModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Tambah Mahasiswa</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Form Tambah Mahasiswa -->
+        <form action="/tambahMahasiswa" method="POST">
+          <div class="form-group">
+            <label for="nama_lengkap">Nama Lengkap</label>
+            <input
+              type="text"
+              class="form-control"
+              id="nama_lengkap"
+              name="nama_lengkap"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="nim">NIM</label>
+            <input
+              type="text"
+              class="form-control"
+              id="nim"
+              name="nim"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="kelas">Kelas</label>
+            <input
+              type="text"
+              class="form-control"
+              id="kelas"
+              name="kelas"
+              required
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Tutup
+            </button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Edit Mahasiswa -->
+{% for row in tableData %}
+<div
+  class="modal fade"
+  id="editModal{{ row._id }}"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="editModalLabel{{ row._id }}"
+  ariahidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel{{ row._id }}">
+          Edit Mahasiswa
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Form Edit Mahasiswa -->
+        <form action="/ubahMahasiswa/{{ row._id }}" method="POST">
+          <div class="form-group">
+            <label for="nama_lengkap">Nama Lengkap</label>
+            <input
+              type="text"
+              class="form-control"
+              id="nama_lengkap"
+              name="nama_lengkap"
+              value="{{ row.nama_lengkap }}"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="nim">NIM</label>
+            <input
+              type="text"
+              class="form-control"
+              id="nim"
+              name="nim"
+              value="{{ row.nim }}"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="kelas">Kelas</label>
+            <input
+              type="text"
+              class="form-control"
+              id="kelas"
+              name="kelas"
+              value="{{ row.kelas }}"
+              required
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Tutup
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Simpan Perubahan
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+<!-- Modal Absen Mahasiswa -->
+{% for mahasiswa in tableData %}
+<div
+  class="modal fade"
+  id="absenModal{{ mahasiswa._id }}"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="absenModalLabel{{ mahasiswa._id }}"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="absenModalLabel{{ mahasiswa._id }}">
+          Data Absen Mahasiswa - {{ mahasiswa.nama_lengkap }}
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Tampilkan data absen mahasiswa di dalam modal -->
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Tanggal</th>
+              <th>Jam Masuk</th>
+              <th>Jam Pulang</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Iterasi melalui data absen untuk mahasiswa ini -->
+            {% for absen in absen %}
+            <tr>
+              <td>{{ absen.tanggal }}</td>
+              <td>{{ absen.jamMasuk }}</td>
+              <td>{{ absen.jamPulang }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+<script>
+  function deleteConfirmation(id) {
+    var confirmation = confirm("Apakah Anda yakin ingin menghapus data ini?");
+    if (confirmation) {
+      window.location.href = "/hapusMahasiswa/" + id;
+    }
+  }
+</script>
+{% endblock %}

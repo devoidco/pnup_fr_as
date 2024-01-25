@@ -1,0 +1,18 @@
+<table class="table table-bordered dataTable">
+    <tr>
+        <th>ID</th>
+        <th>NIM</th>
+        <th>Nama</th>
+        <th>Gender</th>
+        <th>Jumlah Data</th>
+    </tr>
+    {% for item in data %}
+    <tr>
+        <td>{{ item['id'] }}</td>
+        <td>{{ item['nim'] }}</td>
+        <td>{{ item['nama_lengkap'] }}</td>
+        <td>{{ item['gender'] }}</td>
+        <td>{{ item['jumlah_data'] }}</td>
+    </tr>
+    {% endfor %}
+</table>

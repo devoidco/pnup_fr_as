@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div
+      class="d-sm-flex align-items-center justify-content-between mb-4"
+    >
+      <h1 class="h3 mb-0 text-gray-800">Mode Kamera ESP32Cam</h1>
+    </div>
+
+    <!-- Content Row -->
+
+    <div class="row mb-5">
+        <div class="col-xl-12 col-lg-12">
+            <select class="custom-select" id="pilih_mode">
+                <option value="0" selected>Choose...</option>
+                <option value="1">Check Existing Data</option>
+                <option value="2">Enroll New Data</option>
+                <option value="3">Capture and Validate</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+      <!-- Area Chart -->
+      <div class="col-xl-12 col-lg-12">
+        <div class="card shadow mb-4">
+          <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">
+              Detail Mode
+            </h6>
+          </div>
+          <!-- Card Body -->
+          <div class="card-body" id="detail_mode"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+
+{% endblock %}
+

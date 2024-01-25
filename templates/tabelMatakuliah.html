@@ -1,0 +1,275 @@
+{% extends 'layout.html' %} {% block content %}
+
+<div class="container-fluid">
+  <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">DataTable</h6>
+      <div class="float-right">
+        <button
+          class="btn btn-success"
+          data-toggle="modal"
+          data-target="#addModal"
+        >
+          <i class="fas fa-plus"></i> Tambah Data
+        </button>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table
+          class="table table-bordered dataTable"
+          id="dataTable"
+          width="100%"
+          cellspacing="0"
+        >
+          <thead>
+            <tr>
+              <th>Kode Matakuliah</th>
+              <th>Nama Matakuliah</th>
+              <th>Hari Masuk</th>
+              <th>Jam Masuk</th>
+              <th>Jam Keluar</th>
+              <td>Menu Aksi</td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in tableData %}
+            <tr>
+              <td>{{ row.kodeMatakuliah }}</td>
+              <td>{{ row.namaMatakuliah }}</td>
+              <td>{{ row.hariMasuk }}</td>
+              <td>{{ row.jamMasuk }}</td>
+              <td>{{ row.jamKeluar }}</td>
+              <td>
+                <div class="btn-group">
+                  <a
+                    href="#"
+                    class="btn btn-sm btn-warning"
+                    data-toggle="modal"
+                    data-target="#editModal{{ row._id }}"
+                  >
+                    <i class="fas fa-edit"></i> Edit
+                  </a>
+                  <a
+                    href="#"
+                    onclick="deleteConfirmation('{{ row._id }}')"
+                    class="btn btn-sm btn-danger"
+                  >
+                    <i class="fas fa-trash"></i> Hapus
+                  </a>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Tambah Matakuliah -->
+<div
+  class="modal fade"
+  id="addModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="addModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Tambah Matakuliah</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Form Tambah Matakuliah -->
+        <form action="/addMatakuliah" method="POST">
+          <div class="form-group">
+            <label for="kodeMatakuliah">Kode Matakuliah</label>
+            <input
+              type="text"
+              class="form-control"
+              id="kodeMatakuliah"
+              name="kodeMatakuliah"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="namaMatakuliah">Nama Matakuliah</label>
+            <input
+              type="text"
+              class="form-control"
+              id="namaMatakuliah"
+              name="namaMatakuliah"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="hariMasuk">Hari Masuk</label>
+            <input
+              type="text"
+              class="form-control"
+              id="hariMasuk"
+              name="hariMasuk"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="jamMasuk">Jam Masuk</label>
+            <input
+              type="text"
+              class="form-control"
+              id="jamMasuk"
+              name="jamMasuk"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="jamKeluar">Jam Keluar</label>
+            <input
+              type="text"
+              class="form-control"
+              id="jamKeluar"
+              name="jamKeluar"
+              required
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Tutup
+            </button>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Edit Matakuliah -->
+{% for row in tableData %}
+<div
+  class="modal fade"
+  id="editModal{{ row._id }}"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="editModalLabel{{ row._id }}"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel{{ row._id }}">
+          Edit Matakuliah
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Form Edit Matakuliah -->
+        <form action="/editMatakuliah/{{ row._id }}" method="POST">
+          <div class="form-group">
+            <label for="editKodeMatakuliah">Kode Matakuliah</label>
+            <input
+              type="text"
+              class="form-control"
+              id="editKodeMatakuliah"
+              name="kodeMatakuliah"
+              value="{{ row.kodeMatakuliah }}"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="editNamaMatakuliah">Nama Matakuliah</label>
+            <input
+              type="text"
+              class="form-control"
+              id="editNamaMatakuliah"
+              name="namaMatakuliah"
+              value="{{ row.namaMatakuliah }}"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="editHariMasuk">Hari Masuk</label>
+            <input
+              type="text"
+              class="form-control"
+              id="editHariMasuk"
+              name="hariMasuk"
+              value="{{ row.hariMasuk }}"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="editJamMasuk">Jam Masuk</label>
+            <input
+              type="text"
+              class="form-control"
+              id="editJamMasuk"
+              name="jamMasuk"
+              value="{{ row.jamMasuk }}"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="editJamKeluar">Jam Keluar</label>
+            <input
+              type="text"
+              class="form-control"
+              id="editJamKeluar"
+              name="jamKeluar"
+              value="{{ row.jamKeluar }}"
+              required
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Tutup
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Simpan Perubahan
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+<script>
+  function deleteConfirmation(id) {
+    var confirmation = confirm("Apakah Anda yakin ingin menghapus data ini?");
+    if (confirmation) {
+      window.location.href = "/deleteMatakuliah/" + id;
+    }
+  }
+</script>
+
+{% endblock %}

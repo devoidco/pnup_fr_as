@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Edit Data Matakuliah</title>
+  </head>
+  <body>
+    <h1 class="h3 mb-2 text-gray-800">Edit Data Matakuliah</h1>
+
+    <form action="/updateMatkul" method="post">
+      <div class="form-group">
+        <label for="kodeMatkul">Kode Matakuliah</label>
+        <input
+          type="text"
+          class="form-control"
+          id="kodeMatkul"
+          name="kodeMatkul"
+          value="{{ document.kodeMatakuliah }}"
+          readonly
+        />
+      </div>
+      <div class="form-group">
+        <label for="namaMatkul">Nama Matakuliah</label>
+        <input
+          type="text"
+          class="form-control"
+          id="namaMatkul"
+          name="namaMatkul"
+          value="{{ document.namaMatakuliah }}"
+        />
+      </div>
+      <div class="form-group">
+        <label for="hariMasuk">Hari Masuk</label>
+        <input
+          type="text"
+          class="form-control"
+          id="hariMasuk"
+          name="hariMasuk"
+          value="{{ document.hariMasuk }}"
+        />
+      </div>
+      <div class="form-group">
+        <label for="jamMasuk">Jam Masuk</label>
+        <input
+          type="time"
+          class="form-control"
+          id="jamMasuk"
+          name="jamMasuk"
+          value="{{ document.jamMasuk }}"
+        />
+      </div>
+      <div class="form-group">
+        <label for="jamKeluar">Jam Keluar</label>
+        <input
+          type="time"
+          class="form-control"
+          id="jamKeluar"
+          name="jamKeluar"
+          value="{{ document.jamKeluar }}"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Simpan</button>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+<label for="folder_name">Folder Name:</label>
+<input type="text" class="form-control" name="folder_name" id="folder_name" required><br><br>
+
+<label for="num_images">Number of Images:</label>
+<input type="number" class="form-control" name="num_images" id="num_images" required><br><br>
+
+<label for="camera_url">Camera URL:</label>
+<input type="text" class="form-control" name="camera_url" id="camera_url" required><br><br>
+
+<label for="nim">NIM:</label>
+<input type="text" class="form-control" name="nim" id="nim" required><br><br>
+
+<label for="nama_lengkap">Nama Lengkap:</label>
+<input type="text" class="form-control" name="nama_lengkap" id="nama_lengkap" required><br><br>
+
+<label for="gender">Gender:</label>
+<select class="form-control" name="gender" id="gender" required>
+    <option value="male">Male</option>
+    <option value="female">Female</option>
+</select><br><br>
+
+<button class="btn btn-primary" id="tangkap_dan_latih">Tangkap dan Latih</button>
+
+<script>
+$("button#tangkap_dan_latih").on("click", function() {
+    $.ajax({
+        url: "/capture",
+        method: "POST",
+        data: {
+            "folder_name": $("input#folder_name").val(),
+            "num_images": $("input#num_images").val(),
+            "camera_url": $("input#camera_url").val(),
+            "nim": $("input#nim").val(),
+            "nama_lengkap": $("input#nama_lengkap").val(),
+            "gender": $("select#gender").val(),
+        },
+        success: function(result) {
+            if (result == "Data biometrik wajah mahasiswa berhasil tersimpan") {
+                alert("Data biometrik wajah mahasiswa berhasil tersimpan");
+                window.location.replace("/tampilkanMahasiswa");
+            } else {
+                alert("Data biometrik wajah mahasiswa gagal tersimpan");
+            }
+        }
+    });
+});
+</script>
+
